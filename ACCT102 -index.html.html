@@ -1,0 +1,1350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>N&N Chocolate Factory</title>
+    <style>
+        :root {
+            --primary: #6b3e26; /* Chocolate brown */
+            --secondary: #d4a76a; /* Caramel */
+            --accent: #8b5a2b; /* Dark chocolate */
+            --light: #f5f5dc; /* Cream */
+            --dark: #321414; /* Dark brown */
+            --success: #4caf50;
+            --warning: #ff9800;
+            --danger: #f44336;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo span {
+            color: var(--secondary);
+        }
+
+        nav {
+            background-color: var(--accent);
+            padding: 0.5rem;
+        }
+
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin: 0 1rem;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            background-color: var(--secondary);
+            border-radius: 5px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1499195333224-3ce974eecb47?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .hero-content h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--secondary);
+            color: var(--dark);
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .product-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .product-img {
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .product-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .product-card:hover .product-img img {
+            transform: scale(1.1);
+        }
+
+        .product-info {
+            padding: 1.5rem;
+        }
+
+        .product-info h3 {
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        .product-info p {
+            margin-bottom: 1rem;
+            color: #666;
+        }
+
+        .price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 600px;
+            position: relative;
+            animation: modalOpen 0.5s;
+        }
+
+        @keyframes modalOpen {
+            from {opacity: 0; transform: translateY(-50px);}
+            to {opacity: 1; transform: translateY(0);}
+        }
+
+        .close {
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #aaa;
+        }
+
+        .close:hover {
+            color: var(--dark);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: var(--secondary);
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+        }
+
+        .btn-secondary {
+            background-color: #f1f1f1;
+            color: var(--dark);
+        }
+
+        .btn-secondary:hover {
+            background-color: #ddd;
+        }
+
+        .customer-type {
+            display: flex;
+            justify-content: space-around;
+            margin: 2rem 0;
+        }
+
+        .customer-btn {
+            padding: 1rem 2rem;
+            background-color: #f1f1f1;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .customer-btn.active {
+            background-color: var(--secondary);
+            color: white;
+        }
+
+        .order-summary {
+            background-color: #f9f9f9;
+            padding: 1.5rem;
+            border-radius: 5px;
+            margin-bottom: 2rem;
+        }
+
+        .order-summary h3 {
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .order-total {
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 2px solid var(--secondary);
+        }
+
+        .success-message {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .success-message i {
+            font-size: 4rem;
+            color: var(--success);
+            margin-bottom: 1rem;
+        }
+
+        .error-message {
+            color: var(--danger);
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        footer {
+            background-color: var(--primary);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section {
+            flex: 1;
+            min-width: 250px;
+            margin: 1rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: var(--secondary);
+        }
+
+        .social-icons a {
+            color: white;
+            margin-right: 1rem;
+            font-size: 1.5rem;
+        }
+
+        /* Process flow styles */
+        .process-flow {
+            margin: 2rem 0;
+            padding: 1rem;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+        }
+
+        .process-step {
+            display: flex;
+            margin-bottom: 1.5rem;
+            align-items: center;
+        }
+
+        .step-number {
+            width: 30px;
+            height: 30px;
+            background-color: var(--secondary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+
+        .step-content {
+            flex-grow: 1;
+        }
+
+        .step-connector {
+            height: 20px;
+            width: 2px;
+            background-color: var(--secondary);
+            margin-left: 14px;
+            margin-bottom: 5px;
+        }
+
+        /* Order confirmation styles */
+        .confirmation-details {
+            margin: 1rem 0;
+            padding: 1rem;
+            background-color: #f5f5f5;
+            border-radius: 5px;
+        }
+
+        .confirmation-row {
+            display: flex;
+            margin-bottom: 0.5rem;
+        }
+
+        .confirmation-label {
+            font-weight: bold;
+            width: 150px;
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            nav ul li {
+                margin: 0.5rem 0;
+            }
+
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+
+            .modal-content {
+                width: 90%;
+                margin: 10% auto;
+            }
+
+            .customer-type {
+                flex-direction: column;
+            }
+
+            .customer-btn {
+                margin-bottom: 1rem;
+            }
+
+            .footer-content {
+                flex-direction: column;
+            }
+            
+            .confirmation-row {
+                flex-direction: column;
+            }
+            
+            .confirmation-label {
+                width: 100%;
+                margin-bottom: 0.2rem;
+            }
+        }
+
+        /* Order status styles */
+        .order-status {
+            margin: 2rem 0;
+        }
+
+        .status-steps {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            margin-bottom: 2rem;
+        }
+
+        .status-steps::before {
+            content: '';
+            position: absolute;
+            top: 15px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: #ddd;
+            z-index: 1;
+        }
+
+        .status-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 2;
+        }
+
+        .status-bubble {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 0.5rem;
+            color: white;
+            font-weight: bold;
+        }
+
+        .status-step.active .status-bubble {
+            background-color: var(--success);
+        }
+
+        .status-step.completed .status-bubble {
+            background-color: var(--success);
+        }
+
+        .status-label {
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        /* AI credit check animation */
+        .credit-check {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid var(--secondary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Review section */
+        .review-section {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+        }
+        
+        .review-message {
+            font-style: italic;
+            margin-top: 1rem;
+        }
+        
+        /* Payment terms selector */
+        .payment-terms {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .payment-term-btn {
+            padding: 0.5rem 1rem;
+            background-color: #f1f1f1;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .payment-term-btn.active {
+            background-color: var(--secondary);
+            color: white;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <span>N&N</span> Chocolate Factory
+        </div>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#products">Products</a></li>
+            <li><a href="#about">About Us</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>Artisanal Chocolate Crafted with Love</h1>
+            <p>Discover our premium selection of handcrafted chocolate bars made with ethically sourced ingredients</p>
+            <a href="#products" class="btn">Shop Now</a>
+        </div>
+    </section>
+
+    <div class="container" id="products">
+        <h2>Our Products</h2>
+        <p>All our chocolates are sold in boxes of 50 bars each</p>
+        
+        <div class="products">
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="https://images.unsplash.com/photo-1575377427642-087cf684f29d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Milk Chocolate">
+                </div>
+                <div class="product-info">
+                    <h3>Milk Chocolate (250g bars)</h3>
+                    <p>Our classic creamy milk chocolate with a smooth texture and rich flavor.</p>
+                    <div class="price">R1,250 per box</div>
+                    <button class="btn" onclick="openOrderModal('Milk Chocolate (250g bars)', 1250)">Order Now</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="https://images.unsplash.com/photo-1602351447937-745cb720612f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Dark Chocolate">
+                </div>
+                <div class="product-info">
+                    <h3>Dark Chocolate (100g bars) - Vegan</h3>
+                    <p>Rich 70% dark chocolate made with ethically sourced cocoa beans. Vegan friendly.</p>
+                    <div class="price">R800 per box</div>
+                    <button class="btn" onclick="openOrderModal('Dark Chocolate (100g bars) - Vegan', 800)">Order Now</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="https://images.unsplash.com/photo-1606313564200-e75d5e30476c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Unsweetened Chocolate">
+                </div>
+                <div class="product-info">
+                    <h3>Unsweetened Chocolate (400g bars)</h3>
+                    <p>Pure chocolate with no added sugar, perfect for baking and cooking.</p>
+                    <div class="price">R1,500 per box</div>
+                    <button class="btn" onclick="openOrderModal('Unsweetened Chocolate (400g bars)', 1500)">Order Now</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Modal -->
+    <div id="orderModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="modalProductTitle">Order Product</h2>
+            
+            <!-- Customer Type Selection -->
+            <div id="customerTypeSection">
+                <p>Are you a new or returning customer?</p>
+                <div class="customer-type">
+                    <button class="customer-btn active" onclick="setCustomerType('new')">New Customer</button>
+                    <button class="customer-btn" onclick="setCustomerType('returning')">Returning Customer</button>
+                </div>
+            </div>
+
+            <!-- New Customer Form -->
+            <div id="newCustomerForm" style="display: none;">
+                <form id="newCustomerOrderForm">
+                    <div class="order-summary">
+                        <h3>Order Summary</h3>
+                        <div class="order-item">
+                            <span id="summaryProductName">Product</span>
+                            <span id="summaryProductPrice">R0.00</span>
+                        </div>
+                        <div class="order-total">
+                            <span>Total</span>
+                            <span id="summaryTotalPrice">R0.00</span>
+                        </div>
+                    </div>
+
+                    <h3>Customer Information</h3>
+                    <div class="form-group">
+                        <label for="newEmail">Email Address</label>
+                        <input type="email" id="newEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="newName">Full Name</label>
+                        <input type="text" id="newName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="newPhone">Phone Number</label>
+                        <input type="tel" id="newPhone" required>
+                    </div>
+
+                    <h3>Payment Information</h3>
+                    <div class="form-group">
+                        <label for="cardNumber">Credit Card Number</label>
+                        <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="cardExpiry">Expiry Date</label>
+                        <input type="text" id="cardExpiry" placeholder="MM/YY" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="cardCvv">CVV</label>
+                        <input type="text" id="cardCvv" placeholder="123" required>
+                    </div>
+
+                    <h3>Delivery Information</h3>
+                    <div class="form-group">
+                        <label for="deliveryAddress">Delivery Address</label>
+                        <input type="text" id="deliveryAddress" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="deliveryCity">City</label>
+                        <input type="text" id="deliveryCity" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="deliveryPostalCode">Postal Code</label>
+                        <input type="text" id="deliveryPostalCode" required>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+                        <button type="button" class="btn" onclick="processNewOrder()">Place Order</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Returning Customer Form -->
+            <div id="returningCustomerForm" style="display: none;">
+                <form id="returningCustomerOrderForm">
+                    <div class="order-summary">
+                        <h3>Order Summary</h3>
+                        <div class="order-item">
+                            <span id="returningSummaryProductName">Product</span>
+                            <span id="returningSummaryProductPrice">R0.00</span>
+                        </div>
+                        <div class="order-total">
+                            <span>Total</span>
+                            <span id="returningSummaryTotalPrice">R0.00</span>
+                        </div>
+                    </div>
+
+                    <h3>Account Login</h3>
+                    <div class="form-group">
+                        <label for="returningEmail">Email Address</label>
+                        <input type="email" id="returningEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="returningPassword">Password</label>
+                        <input type="password" id="returningPassword" required>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+                        <button type="button" class="btn" onclick="verifyReturningCustomer()">Verify Account</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Credit Check Section -->
+            <div id="creditCheckSection" style="display: none;">
+                <div class="credit-check">
+                    <div class="spinner"></div>
+                    <h3>Processing Your Order</h3>
+                    <p>Our AI system is verifying your payment information and creditworthiness...</p>
+                </div>
+            </div>
+
+            <!-- Payment Terms Selection for Account Customers -->
+            <div id="paymentTermsSection" style="display: none;">
+                <h3>Payment Terms</h3>
+                <p>Please select your preferred payment terms:</p>
+                
+                <div class="payment-terms">
+                    <button class="payment-term-btn active" onclick="setPaymentTerms('immediate')">Pay Now</button>
+                    <button class="payment-term-btn" onclick="setPaymentTerms('net30')">Net 30 Days</button>
+                    <button class="payment-term-btn" onclick="setPaymentTerms('net60')">Net 60 Days</button>
+                </div>
+                
+                <div id="overduePaymentSection" style="display: none; margin-bottom: 1.5rem;">
+                    <div style="background-color: #fff3cd; padding: 1rem; border-radius: 5px;">
+                        <h4 style="color: #856404; margin-bottom: 0.5rem;">Outstanding Balance</h4>
+                        <p>You have an overdue payment of <strong id="overdueAmount">R0.00</strong>.</p>
+                        <p>Please settle this amount to proceed with your new order.</p>
+                        <button type="button" class="btn" style="background-color: #856404; color: white;" onclick="payOverdueAmount()">Pay Now</button>
+                    </div>
+                </div>
+                
+                <div id="deliveryInfoSection">
+                    <h3>Delivery Information</h3>
+                    <div class="form-group">
+                        <label for="sameAddress">
+                            <input type="checkbox" id="sameAddress" checked> Use my default delivery address
+                        </label>
+                    </div>
+                    <div id="alternativeAddressSection" style="display: none;">
+                        <div class="form-group">
+                            <label for="altDeliveryAddress">Delivery Address</label>
+                            <input type="text" id="altDeliveryAddress">
+                        </div>
+                        <div class="form-group">
+                            <label for="altDeliveryCity">City</label>
+                            <input type="text" id="altDeliveryCity">
+                        </div>
+                        <div class="form-group">
+                            <label for="altDeliveryPostalCode">Postal Code</label>
+                            <input type="text" id="altDeliveryPostalCode">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="setCustomerType('returning')">Back</button>
+                    <button type="button" class="btn" id="returningCustomerOrderBtn" onclick="processReturningOrder()">Place Order</button>
+                </div>
+            </div>
+
+            <!-- Order Confirmation Section -->
+            <div id="orderConfirmationSection" style="display: none;">
+                <div class="success-message">
+                    <i class="fas fa-check-circle"></i>
+                    <h3>Order Confirmed!</h3>
+                    <p id="confirmationMessage">Your order has been successfully placed.</p>
+                    <p>Order #: <strong id="orderNumber">NN-2025-001</strong></p>
+                    
+                    <div class="confirmation-details">
+                        <div class="confirmation-row">
+                            <div class="confirmation-label">Product:</div>
+                            <div id="confirmProductName">Milk Chocolate (250g bars)</div>
+                        </div>
+                        <div class="confirmation-row">
+                            <div class="confirmation-label">Quantity:</div>
+                            <div>1 box (50 bars)</div>
+                        </div>
+                        <div class="confirmation-row">
+                            <div class="confirmation-label">Total Amount:</div>
+                            <div id="confirmTotalPrice">R1,250.00</div>
+                        </div>
+                        <div class="confirmation-row">
+                            <div class="confirmation-label">Delivery Address:</div>
+                            <div id="confirmDeliveryAddress">123 Main St, Johannesburg, 2000</div>
+                        </div>
+                        <div class="confirmation-row">
+                            <div class="confirmation-label">Payment Method:</div>
+                            <div id="confirmPaymentMethod">Credit Card ending in 4242</div>
+                        </div>
+                    </div>
+                    
+                    <button class="btn" onclick="closeModal()">Continue Shopping</button>
+                </div>
+            </div>
+
+            <!-- Order Status Section -->
+            <div id="orderStatusSection" style="display: none;">
+                <div class="order-status">
+                    <h3>Order Status</h3>
+                    <div class="status-steps">
+                        <div class="status-step active" id="step1">
+                            <div class="status-bubble">1</div>
+                            <div class="status-label">Order Received</div>
+                        </div>
+                        <div class="status-step" id="step2">
+                            <div class="status-bubble">2</div>
+                            <div class="status-label">Processing</div>
+                        </div>
+                        <div class="status-step" id="step3">
+                            <div class="status-bubble">3</div>
+                            <div class="status-label">Shipped</div>
+                        </div>
+                        <div class="status-step" id="step4">
+                            <div class="status-bubble">4</div>
+                            <div class="status-label">Delivered</div>
+                        </div>
+                    </div>
+                    <p>Your order is being prepared for shipment. You'll receive an email with tracking information once it's on its way.</p>
+                    
+                    <div class="review-section">
+                        <h4>How was your experience?</h4>
+                        <p class="review-message" id="personalizedReviewMessage"></p>
+                        <textarea id="customerReview" placeholder="Share your feedback about your order..." rows="3" style="width: 100%; padding: 0.8rem; border-radius: 5px; border: 1px solid #ddd;"></textarea>
+                        <button class="btn" style="margin-top: 1rem;" onclick="submitReview()">Submit Review</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Process Flow Visualization -->
+            <div id="processFlowSection" style="display: none;">
+                <h3>Your Order Process</h3>
+                <div class="process-flow">
+                    <div class="process-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Order Received</h4>
+                            <p>Your order has been received and is being processed by our team.</p>
+                        </div>
+                    </div>
+                    <div class="step-connector"></div>
+                    <div class="process-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>Credit Approval</h4>
+                            <p id="creditApprovalText">Your credit has been approved by our AI system.</p>
+                        </div>
+                    </div>
+                    <div class="step-connector"></div>
+                    <div class="process-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>Order Validation</h4>
+                            <p>Customer service is reviewing your sales order for validity and accuracy.</p>
+                        </div>
+                    </div>
+                    <div class="step-connector"></div>
+                    <div class="process-step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h4>Order Fulfillment</h4>
+                            <p>Your order has been released to our stockroom for fulfillment.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="container" id="about">
+        <h2>About N&N Chocolate Factory</h2>
+        <p>Founded in 2021 by Aaliyah Naidoo, N&N Chocolate Factory began as a passion project when Aaliyah's homemade chocolates became a hit at school fairs. Today, we're a family-run business dedicated to creating high-quality, artisanal chocolates using traditional methods with a modern twist.</p>
+        <p>Our team includes Aaliyah, her husband Tshepisho Ndlovu, and their child Jamie Naidoo Ndlovu, who bring their unique perspectives to our chocolate creations.</p>
+        
+        <h3 style="margin-top: 2rem;">Our Digital Transformation</h3>
+        <p>We're implementing cutting-edge digital solutions to streamline our ordering process, improve customer experience, and ensure sustainable business practices. Our new AI-powered ordering system helps us serve you better while maintaining the personal touch of a family business.</p>
+    </section>
+
+    <section class="container" id="contact">
+        <h2>Contact Us</h2>
+        <p>Have questions about our products or want to place a bulk order? Get in touch with us!</p>
+        <p>Email: info@nnchocolate.co.za</p>
+        <p>Phone: +27 12 345 6789</p>
+        <p>Address: 123 Chocolate Lane, Durban, South Africa</p>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul style="list-style: none;">
+                    <li><a href="#home" style="color: white; text-decoration: none;">Home</a></li>
+                    <li><a href="#products" style="color: white; text-decoration: none;">Products</a></li>
+                    <li><a href="#about" style="color: white; text-decoration: none;">About Us</a></li>
+                    <li><a href="#contact" style="color: white; text-decoration: none;">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Products</h3>
+                <ul style="list-style: none;">
+                    <li>Milk Chocolate</li>
+                    <li>Dark Chocolate (Vegan)</li>
+                    <li>Unsweetened Chocolate</li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Connect With Us</h3>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-tiktok"></i></a>
+                </div>
+            </div>
+        </div>
+        <p>&copy; 2025 N&N Chocolate Factory. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // Global variables to store order information
+        let currentProduct = '';
+        let currentPrice = 0;
+        let customerType = 'new';
+        let overdueAmount = 0;
+        let paymentTerms = 'immediate';
+        let customerName = '';
+        let customerEmail = '';
+
+        // Open order modal with product details
+        function openOrderModal(product, price) {
+            currentProduct = product;
+            currentPrice = price;
+            
+            // Update product info in both forms
+            document.getElementById('summaryProductName').textContent = product;
+            document.getElementById('summaryProductPrice').textContent = 'R' + price.toFixed(2);
+            document.getElementById('summaryTotalPrice').textContent = 'R' + price.toFixed(2);
+            
+            document.getElementById('returningSummaryProductName').textContent = product;
+            document.getElementById('returningSummaryProductPrice').textContent = 'R' + price.toFixed(2);
+            document.getElementById('returningSummaryTotalPrice').textContent = 'R' + price.toFixed(2);
+            
+            // Reset modal sections
+            document.getElementById('customerTypeSection').style.display = 'block';
+            document.getElementById('newCustomerForm').style.display = 'none';
+            document.getElementById('returningCustomerForm').style.display = 'none';
+            document.getElementById('creditCheckSection').style.display = 'none';
+            document.getElementById('paymentTermsSection').style.display = 'none';
+            document.getElementById('orderConfirmationSection').style.display = 'none';
+            document.getElementById('orderStatusSection').style.display = 'none';
+            document.getElementById('processFlowSection').style.display = 'none';
+            
+            // Set customer type to new by default
+            setCustomerType('new');
+            
+            // Show modal
+            document.getElementById('orderModal').style.display = 'block';
+            document.getElementById('modalProductTitle').textContent = 'Order ' + product;
+        }
+
+        // Close modal
+        function closeModal() {
+            document.getElementById('orderModal').style.display = 'none';
+        }
+
+        // Set customer type (new or returning)
+        function setCustomerType(type) {
+            customerType = type;
+            
+            // Update button styles
+            const buttons = document.querySelectorAll('.customer-btn');
+            buttons.forEach(btn => {
+                if (btn.textContent.toLowerCase().includes(type)) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+            
+            // Show appropriate form
+            if (type === 'new') {
+                document.getElementById('customerTypeSection').style.display = 'block';
+                document.getElementById('newCustomerForm').style.display = 'block';
+                document.getElementById('returningCustomerForm').style.display = 'none';
+                document.getElementById('paymentTermsSection').style.display = 'none';
+            } else {
+                document.getElementById('customerTypeSection').style.display = 'block';
+                document.getElementById('newCustomerForm').style.display = 'none';
+                document.getElementById('returningCustomerForm').style.display = 'block';
+                document.getElementById('paymentTermsSection').style.display = 'none';
+            }
+            
+            // Hide other sections
+            document.getElementById('creditCheckSection').style.display = 'none';
+            document.getElementById('orderConfirmationSection').style.display = 'none';
+            document.getElementById('orderStatusSection').style.display = 'none';
+            document.getElementById('processFlowSection').style.display = 'none';
+        }
+        
+        // Set payment terms
+        function setPaymentTerms(terms) {
+            paymentTerms = terms;
+            
+            // Update button styles
+            const buttons = document.querySelectorAll('.payment-term-btn');
+            buttons.forEach(btn => {
+                if (btn.textContent.toLowerCase().includes(terms) || 
+                    (terms === 'immediate' && btn.textContent.toLowerCase().includes('now'))) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+        }
+
+        // Process order for new customer
+        function processNewOrder() {
+            // Validate form
+            const email = document.getElementById('newEmail').value;
+            const name = document.getElementById('newName').value;
+            const phone = document.getElementById('newPhone').value;
+            const cardNumber = document.getElementById('cardNumber').value;
+            const cardExpiry = document.getElementById('cardExpiry').value;
+            const cardCvv = document.getElementById('cardCvv').value;
+            const address = document.getElementById('deliveryAddress').value;
+            const city = document.getElementById('deliveryCity').value;
+            const postalCode = document.getElementById('deliveryPostalCode').value;
+            
+            if (!email || !name || !phone || !cardNumber || !cardExpiry || !cardCvv || !address || !city || !postalCode) {
+                alert('Please fill in all required fields');
+                return;
+            }
+            
+            // Store customer info
+            customerEmail = email;
+            customerName = name;
+            
+            // Show credit check section
+            document.getElementById('customerTypeSection').style.display = 'none';
+            document.getElementById('newCustomerForm').style.display = 'none';
+            document.getElementById('creditCheckSection').style.display = 'block';
+            
+            // Simulate AI credit check (3 seconds)
+            setTimeout(function() {
+                // In a real implementation, this would call an actual credit check API
+                const creditApproved = Math.random() > 0.2; // 80% approval rate for demo
+                
+                if (creditApproved) {
+                    // Update process flow
+                    document.getElementById('creditApprovalText').textContent = 
+                        "Your credit has been approved by our AI system.";
+                    
+                    // Show order confirmation
+                    showOrderConfirmation({
+                        email: email,
+                        name: name,
+                        phone: phone,
+                        cardLastFour: cardNumber.slice(-4),
+                        address: address,
+                        city: city,
+                        postalCode: postalCode,
+                        paymentMethod: 'Credit Card ending in ' + cardNumber.slice(-4),
+                        paymentTerms: 'Paid immediately'
+                    });
+                } else {
+                    // Show credit declined message
+                    document.getElementById('creditCheckSection').innerHTML = `
+                        <div style="text-align: center; padding: 2rem;">
+                            <i class="fas fa-times-circle" style="font-size: 4rem; color: var(--danger); margin-bottom: 1rem;"></i>
+                            <h3>Credit Check Unsuccessful</h3>
+                            <p>We're unable to approve your payment method at this time.</p>
+                            <p>Please try a different payment method or contact your bank.</p>
+                            <button class="btn" onclick="setCustomerType('new')">Try Again</button>
+                        </div>
+                    `;
+                }
+            }, 3000);
+        }
+
+        // Verify returning customer
+        function verifyReturningCustomer() {
+            const email = document.getElementById('returningEmail').value;
+            const password = document.getElementById('returningPassword').value;
+            
+            if (!email || !password) {
+                alert('Please enter your email and password');
+                return;
+            }
+            
+            // Store customer email
+            customerEmail = email;
+            
+            // In a real implementation, this would validate against a database
+            // For demo purposes, we'll simulate a check
+            
+            // Show loading
+            document.getElementById('returningCustomerForm').style.display = 'none';
+            document.getElementById('creditCheckSection').style.display = 'block';
+            document.getElementById('creditCheckSection').innerHTML = `
+                <div class="credit-check">
+                    <div class="spinner"></div>
+                    <h3>Verifying Your Account</h3>
+                    <p>Please wait while we verify your account details...</p>
+                </div>
+            `;
+            
+            // Simulate verification (2 seconds)
+            setTimeout(function() {
+                // Randomly determine if customer has overdue payment (30% chance)
+                const hasOverdue = Math.random() < 0.3;
+                overdueAmount = hasOverdue ? Math.floor(Math.random() * 500) + 100 : 0;
+                
+                // Get customer name from email (for demo)
+                const namePart = email.split('@')[0];
+                customerName = namePart ? namePart.charAt(0).toUpperCase() + namePart.slice(1).split('.')[0] : 'Valued Customer';
+                
+                // Show payment terms section
+                document.getElementById('creditCheckSection').style.display = 'none';
+                document.getElementById('paymentTermsSection').style.display = 'block';
+                
+                if (hasOverdue) {
+                    // Show overdue payment section
+                    document.getElementById('overduePaymentSection').style.display = 'block';
+                    document.getElementById('overdueAmount').textContent = 'R' + overdueAmount.toFixed(2);
+                    document.getElementById('returningCustomerOrderBtn').disabled = true;
+                } else {
+                    // Hide overdue payment section
+                    document.getElementById('overduePaymentSection').style.display = 'none';
+                    document.getElementById('returningCustomerOrderBtn').disabled = false;
+                }
+                
+                // Set up event listener for address checkbox
+                document.getElementById('sameAddress').addEventListener('change', function() {
+                    document.getElementById('alternativeAddressSection').style.display = 
+                        this.checked ? 'none' : 'block';
+                });
+                
+                // Set default address (in a real app, this would come from the database)
+                document.getElementById('altDeliveryAddress').value = '123 Default St';
+                document.getElementById('altDeliveryCity').value = 'Johannesburg';
+                document.getElementById('altDeliveryPostalCode').value = '2000';
+            }, 2000);
+        }
+
+        // Pay overdue amount
+        function payOverdueAmount() {
+            // In a real implementation, this would process a payment
+            // For demo, we'll just simulate it
+            
+            document.getElementById('overduePaymentSection').innerHTML = `
+                <div style="background-color: #d4edda; padding: 1rem; border-radius: 5px; color: #155724;">
+                    <i class="fas fa-check-circle"></i> Payment of R${overdueAmount.toFixed(2)} successful!
+                </div>
+            `;
+            
+            // Enable order button
+            document.getElementById('returningCustomerOrderBtn').disabled = false;
+            
+            // Reset overdue amount
+            overdueAmount = 0;
+        }
+
+        // Process order for returning customer
+        function processReturningOrder() {
+            // Validate if alternative address is needed
+            const useDefaultAddress = document.getElementById('sameAddress').checked;
+            let address, city, postalCode;
+            
+            if (useDefaultAddress) {
+                address = '123 Default St';
+                city = 'Johannesburg';
+                postalCode = '2000';
+            } else {
+                address = document.getElementById('altDeliveryAddress').value;
+                city = document.getElementById('altDeliveryCity').value;
+                postalCode = document.getElementById('altDeliveryPostalCode').value;
+                
+                if (!address || !city || !postalCode) {
+                    alert('Please fill in all delivery address fields');
+                    return;
+                }
+            }
+            
+            // Show credit check section (for account terms approval)
+            document.getElementById('paymentTermsSection').style.display = 'none';
+            document.getElementById('creditCheckSection').style.display = 'block';
+            
+            // Simulate account terms approval (shorter for returning customers)
+            setTimeout(function() {
+                // Returning customers have higher approval rate (90%)
+                const creditApproved = Math.random() > 0.1;
+                
+                if (creditApproved) {
+                    // Update process flow
+                    document.getElementById('creditApprovalText').textContent = 
+                        paymentTerms === 'immediate' 
+                            ? "Your payment has been processed successfully." 
+                            : "Your account terms have been approved.";
+                    
+                    // Show order confirmation
+                    showOrderConfirmation({
+                        email: customerEmail,
+                        name: customerName,
+                        phone: '012-345-6789', // Default for demo
+                        cardLastFour: '4242', // Default for demo
+                        address: address,
+                        city: city,
+                        postalCode: postalCode,
+                        paymentMethod: paymentTerms === 'immediate' 
+                            ? 'Credit Card ending in 4242' 
+                            : 'Account (' + paymentTerms + ')',
+                        paymentTerms: paymentTerms === 'immediate' 
+                            ? 'Paid immediately' 
+                            : paymentTerms
+                    });
+                } else {
+                    // Show credit declined message
+                    document.getElementById('creditCheckSection').innerHTML = `
+                        <div style="text-align: center; padding: 2rem;">
+                            <i class="fas fa-times-circle" style="font-size: 4rem; color: var(--danger); margin-bottom: 1rem;"></i>
+                            <h3>Order Not Approved</h3>
+                            <p>We're unable to process your order at this time.</p>
+                            <p>Please contact customer service for assistance.</p>
+                            <button class="btn" onclick="setCustomerType('returning')">Try Again</button>
+                        </div>
+                    `;
+                }
+            }, 2000);
+        }
+
+        // Show order confirmation
+        function showOrderConfirmation(orderDetails) {
+            document.getElementById('creditCheckSection').style.display = 'none';
+            document.getElementById('paymentTermsSection').style.display = 'none';
+            
+            // Generate random order number
+            const orderNum = 'NN-2025-' + Math.floor(Math.random() * 9000) + 1000;
+            document.getElementById('orderNumber').textContent = orderNum;
+            
+            // Personalize confirmation message
+            document.getElementById('confirmationMessage').innerHTML = `
+                Thank you, ${orderDetails.name}! Your order of <strong>${currentProduct}</strong> has been successfully placed.
+            `;
+            
+            // Update confirmation details
+            document.getElementById('confirmProductName').textContent = currentProduct;
+            document.getElementById('confirmTotalPrice').textContent = 'R' + currentPrice.toFixed(2);
+            document.getElementById('confirmDeliveryAddress').textContent = 
+                `${orderDetails.address}, ${orderDetails.city}, ${orderDetails.postalCode}`;
+            document.getElementById('confirmPaymentMethod').textContent = orderDetails.paymentMethod;
+            
+            // Personalize review message
+            document.getElementById('personalizedReviewMessage').textContent = 
+                `Hi ${orderDetails.name.split(' ')[0]}, we'd love to hear about your experience with your recent order!`;
+            
+            document.getElementById('orderConfirmationSection').style.display = 'block';
+            document.getElementById('processFlowSection').style.display = 'block';
+            document.getElementById('orderStatusSection').style.display = 'block';
+            
+            // Simulate order status updates
+            simulateOrderStatus();
+        }
+
+        // Simulate order status updates
+        function simulateOrderStatus() {
+            // Step 1 is already active (Order Received)
+            
+            // Step 2 - Processing (after 3 seconds)
+            setTimeout(function() {
+                document.getElementById('step2').classList.add('active');
+            }, 3000);
+            
+            // Step 3 - Shipped (after 8 seconds)
+            setTimeout(function() {
+                document.getElementById('step3').classList.add('active');
+            }, 8000);
+            
+            // Step 4 - Delivered (after 15 seconds)
+            setTimeout(function() {
+                document.getElementById('step4').classList.add('active');
+            }, 15000);
+        }
+        
+        // Submit customer review
+        function submitReview() {
+            const review = document.getElementById('customerReview').value;
+            if (review) {
+                alert('Thank you for your feedback! We appreciate your time.');
+                document.getElementById('customerReview').value = '';
+            } else {
+                alert('Please enter your feedback before submitting.');
+            }
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('orderModal');
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html>
